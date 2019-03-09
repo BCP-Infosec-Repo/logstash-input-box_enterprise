@@ -173,6 +173,18 @@ describe LogStash::Inputs::BoxEnterprise do
       subject.register
     end
 
+    # This test fixes a bug where handle_unknown_error would generate an exception whenever the response_body was empty.
+    describe "#handle_unknown_error" do
+
+      let(:response_headers) { {:error => "there is an error status", "www-authenticate"=>"Bearer realm=\"Service\", error=\"insufficient_scope\", error_description=\"The request requires higher privileges than provided by the access token.\"", "age"=>"2", "connection"=>"keep-alive"} }
+      let(:response) { Manticore::StubbedResponse.stub(body: "", headers: response_headers, code: 500).call }
+
+      it "builds an event with an empty body" do 
+        expect(subject).to receive(:apply_metadata)
+        expect(subject).to receive(:decorate)
+        subject.send(:handle_unknown_error, queue, response, nil, nil)
+      end
+    end
     describe "#run" do
       it "should setup a scheduler" do
         
@@ -208,6 +220,7 @@ describe LogStash::Inputs::BoxEnterprise do
 
         allow(subject).to receive(:decorate)
         expect(subject.instance_variable_get(:@logger)).to receive(:error)
+        allow(response).to receive(:times_retried) { 0 }
         subject.send(:handle_success, queue, response, auth_token, requested_url, exec_time)
         expect(subject.instance_variable_get(:@continue)).to be(false)
 

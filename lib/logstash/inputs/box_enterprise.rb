@@ -512,11 +512,17 @@ class LogStash::Inputs::BoxEnterprise < LogStash::Inputs::Base
   def handle_unknown_error(queue,response, requested_url, exec_time)
     @continue = false
 
+    begin
+      parsed_message = JSON.parse(response.body)["message"]
+    rescue
+      parsed_message = "No message provided"
+    end
+
     event_hash = {
       "Box-Plugin-Status" => "Box.com server error",
       "Box-Error-Headers" => response.headers,
       "Box-Error-Code"  => response.code,
-      "Box=Error-Msg" =>  JSON.parse(response.body)["message"],
+      "Box=Error-Msg" =>  parsed_message,
       "Box-Error-Raw-Msg" =>  response.body
       }
 
