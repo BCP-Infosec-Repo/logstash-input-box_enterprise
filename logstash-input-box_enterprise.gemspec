@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name          = 'logstash-input-box_enterprise'
-  s.version       = '0.2.0'
+  s.version       = '0.2.1'
   s.licenses      = ['Apache License (2.0)']
   s.summary       = 'This plugin fetches enterprise events from Box.com to ship to a siem'
   s.description   = 'For SIEMs that do not have the capability to pull the log events from Box.com, this plugin can do the push and push to the SIEM'
