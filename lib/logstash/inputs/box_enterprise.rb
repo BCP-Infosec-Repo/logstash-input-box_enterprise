@@ -151,7 +151,7 @@ class LogStash::Inputs::BoxEnterprise < LogStash::Inputs::Base
         raise LogStash::ConfigurationError, "created_after must be of the form " +
           "yyyy-MM-dd’‘T’‘HH:mm:ssZZ, e.g. 2013-01-01T12:00:00-07:00."
       end
-      @created_after = CGI.escape(@created_after)
+      #@created_after = CGI.escape(@created_after)
     end
 
     if (@created_before)
@@ -161,10 +161,10 @@ class LogStash::Inputs::BoxEnterprise < LogStash::Inputs::Base
         raise LogStash::ConfigurationError, "created_before must be of the form " +
           "yyyy-MM-dd’‘T’‘HH:mm:ssZZ, e.g. 2013-01-01T12:00:00-07:00."
       end
-      @created_before = CGI.escape(@created_before)
+      #@created_before = CGI.escape(@created_before)
     end
 
-    @event_type = CGI.escape(@event_type) if @event_type
+    #@event_type = CGI.escape(@event_type) if @event_type
 
     if (@private_key_pass_env and @private_key_pass_file)
       raise LogStash::ConfigurationError, "Both private_key_file and private_key_env cannot be set. Please select one for use."

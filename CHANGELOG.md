@@ -1,3 +1,5 @@
+## 0.2.2
+  Fix the HTML encoding issue
 ## 0.2.0
   - Updated plugin with 2.4x and 5x compat
 ## 0.1.0
